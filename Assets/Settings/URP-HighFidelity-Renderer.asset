@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd96237a4ed462c469a2ef026e129cb9, type: 3}
   m_Name: RetroBlit
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     Event: 500
     blitMaterial: {fileID: 2100000, guid: 64afa689fbb0b7647a30e596a55b001b, type: 2}
