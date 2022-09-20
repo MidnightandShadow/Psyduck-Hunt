@@ -972,7 +972,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 578510061}
-  m_LocalRotation: {x: 0.067288294, y: -0.2120201, z: 0.014634738, w: 0.97483623}
+  m_LocalRotation: {x: 0.0672883, y: -0.21202011, z: 0.014634741, w: 0.97483623}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -981,6 +981,12 @@ Transform:
   m_Father: {fileID: 1359940405}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &739011911 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5431949260248983209, guid: 28f4c17d09cdb5f4f988d5c509618494,
+    type: 3}
+  m_PrefabInstance: {fileID: 924566952}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &739410136
 GameObject:
   m_ObjectHideFlags: 0
@@ -1204,14 +1210,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5198037910569698788, guid: 28f4c17d09cdb5f4f988d5c509618494,
         type: 3}
-      propertyPath: speed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5198037910569698788, guid: 28f4c17d09cdb5f4f988d5c509618494,
-        type: 3}
       propertyPath: camera
       value: 
       objectReference: {fileID: 330585545}
+    - target: {fileID: 5198037910569698788, guid: 28f4c17d09cdb5f4f988d5c509618494,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 330585545}
+    - target: {fileID: 5198037910569698788, guid: 28f4c17d09cdb5f4f988d5c509618494,
+        type: 3}
+      propertyPath: pokeballPF
+      value: 
+      objectReference: {fileID: 6377582205891453953, guid: e908f2fd92ddfb9439e14501c71bc247,
+        type: 3}
+    - target: {fileID: 5198037910569698788, guid: 28f4c17d09cdb5f4f988d5c509618494,
+        type: 3}
+      propertyPath: pokeballBone
+      value: 
+      objectReference: {fileID: 739011911}
+    - target: {fileID: 5198037910569698788, guid: 28f4c17d09cdb5f4f988d5c509618494,
+        type: 3}
+      propertyPath: playerAnimator
+      value: 
+      objectReference: {fileID: 1277678376}
     - target: {fileID: 5198037910569698791, guid: 28f4c17d09cdb5f4f988d5c509618494,
         type: 3}
       propertyPath: m_SkinWidth
@@ -1284,6 +1306,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28f4c17d09cdb5f4f988d5c509618494, type: 3}
+--- !u!1 &956404217 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4963611247334946992, guid: 28f4c17d09cdb5f4f988d5c509618494,
+    type: 3}
+  m_PrefabInstance: {fileID: 924566952}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1040824812
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,6 +1500,26 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 924566952}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1277678376
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956404217}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1d14e98244315184981ac25803e49ee5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1359940403
 GameObject:
   m_ObjectHideFlags: 0

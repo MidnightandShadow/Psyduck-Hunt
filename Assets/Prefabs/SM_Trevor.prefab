@@ -831,6 +831,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 5198037910569698791}
+  mainCamera: {fileID: 0}
+  playerAnimator: {fileID: 0}
+  speed: 3
+  runSpeed: 7
 --- !u!1 &5065789860652870804
 GameObject:
   m_ObjectHideFlags: 0
