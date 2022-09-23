@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 velocity;
     private float gravity = -9.82f;
     private float jumpHeight = 15f;
-    private float groundCastDistance = 0.05f;
+    private float groundCastDistance = 0.10f;
     private bool grounded;
     private bool throwing = false;
     private GameObject instantiatedPokeball;
