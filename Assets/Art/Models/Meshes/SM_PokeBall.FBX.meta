@@ -1,8 +1,17 @@
 fileFormatVersion: 2
-guid: 0cb8065e5aae24e47862906cdb87ec11
+guid: ded416762cc375c408bcf6cb39e56d0e
 ModelImporter:
   serializedVersion: 21300
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: -6784866277733829334
+    second: Armature|_Open
+  - first:
+      74: -7643428952882733763
+    second: Armature|Close
+  - first:
+      74: 6224824746721569604
+    second: Armature|Wiggle
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -81,7 +90,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 1
+  importAnimation: 0
   humanDescription:
     serializedVersion: 3
     human: []
