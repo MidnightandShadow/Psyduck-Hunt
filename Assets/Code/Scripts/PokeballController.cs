@@ -109,7 +109,7 @@ public class PokeballController : MonoBehaviour
                 pokeballAnimator.SetInteger("State", 2);
                 pokeballAnimator.speed = 1.5f;
 
-                float r = Random.Range(1, 8);
+                float r = Random.Range(1, 10);
 
                 if (checkForEscape)
                 {
