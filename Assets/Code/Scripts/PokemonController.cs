@@ -29,10 +29,13 @@ public class PokemonController : MonoBehaviour
     private float viewDistance = 5f;
 
     private Animator pokemonAnimator;
+    private LevelManager levelManager;
     
     // Start is called before the first frame update
     void Start()
     {
+        levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
+        
         trevor = GameObject.Find("Trevor");
 
         walkSpeed = GetComponent<NavMeshAgent>().speed;
@@ -174,7 +177,7 @@ public class PokemonController : MonoBehaviour
 
     public void DigCompleted()
     {
-        Destroy(gameObject);
+        levelManager.removePokemon(gameObject, false);
     }
 
     private void UpdatePokemonAnimator(bool saunter, bool flee, bool dig)

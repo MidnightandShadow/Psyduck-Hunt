@@ -22,12 +22,14 @@ public class PokeballController : MonoBehaviour
     private Transform trevor;
     private bool escaped;
     private bool checkForEscape = true;
+    private LevelManager levelManager;
     
     // Start is called before the first frame update
     void Start()
     {
         pokeballAnimator.speed = 0;
         trevor = GameObject.Find("Trevor").transform.Find("CameraFocus");
+        levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
     }
 
     // "Update but for physics"
@@ -109,11 +111,11 @@ public class PokeballController : MonoBehaviour
                 pokeballAnimator.SetInteger("State", 2);
                 pokeballAnimator.speed = 1.5f;
 
-                float r = Random.Range(1, 10);
+                int r = Random.Range(1, 10);
 
                 if (checkForEscape)
                 {
-                    if (r.Equals(1))
+                    if (r == 1)
                     {
                         escaped = true;
                         pokeballAnimator.speed = 0;
@@ -151,7 +153,7 @@ public class PokeballController : MonoBehaviour
                 }
                 else
                 {
-                    Destroy(pokemon);
+                    levelManager.removePokemon(pokemon, true);
                 }
                 break;
         }
