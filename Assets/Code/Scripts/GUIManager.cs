@@ -98,6 +98,9 @@ public class GUIManager : MonoBehaviour
     private void returnButtonPressed()
     {
         SceneManager.LoadScene("Level/Scenes/Start");
+        MusicManager musicManager = MusicManager.instance;
+        
+        StartCoroutine(musicManager.SwitchTracks());
     }
 
     private bool isDisplayed(GroupBox gb)

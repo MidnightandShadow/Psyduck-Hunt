@@ -8,15 +8,15 @@ public class StartScreenManager : MonoBehaviour
 {
     private VisualElement root;
     private Label callToAction;
-    
-    
+
+
     // Start is called before the first frame update
     void Start()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
         callToAction = root.Q<Label>("CallToAction");
         Time.timeScale = 1;
-        
+
         InvokeRepeating("blinkCallToAction", 0.25f, 0.25f);
     }
 
@@ -26,6 +26,9 @@ public class StartScreenManager : MonoBehaviour
         if (Input.anyKey)
         {
             SceneManager.LoadScene("SampleScene");
+            
+            MusicManager musicManager = MusicManager.instance;
+            StartCoroutine(musicManager.SwitchTracks());
         }
     }
 
