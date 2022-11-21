@@ -28,6 +28,13 @@ public class StartScreenManager : MonoBehaviour
             SceneManager.LoadScene("SampleScene");
             
             MusicManager musicManager = MusicManager.instance;
+
+            if (musicManager.currentlyCrossfading)
+            {
+                musicManager.source0Active = !musicManager.source0Active;
+                StopCoroutine(musicManager.previousCrossfade);
+            }
+            
             StartCoroutine(musicManager.SwitchTracks());
         }
     }

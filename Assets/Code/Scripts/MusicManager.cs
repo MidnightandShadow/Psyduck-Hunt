@@ -13,8 +13,12 @@ public class MusicManager : MonoBehaviour
 
     private AudioSource musicSource1;
 
-    private bool source0Active;
-    
+    public bool source0Active;
+
+    public bool currentlyCrossfading;
+
+    public Coroutine previousCrossfade;
+
     [SerializeField] private AudioClip[] tracks;
 
     [SerializeField] private float numCrossfadeSteps;
@@ -51,6 +55,7 @@ public class MusicManager : MonoBehaviour
 
         musicSource0.Play();
         source0Active = true;
+        currentlyCrossfading = false;
     }
 
     public IEnumerator SwitchTracks()
@@ -58,24 +63,30 @@ public class MusicManager : MonoBehaviour
         AudioSource fadeFrom = source0Active ? musicSource0 : musicSource1;
         AudioSource fadeTo = source0Active ? musicSource1 : musicSource0;
 
-        yield return StartCoroutine(CrossFade(fadeFrom, fadeTo, fadeDuration));
+        previousCrossfade = StartCoroutine(CrossFade(fadeFrom, fadeTo, fadeDuration));
+        yield return previousCrossfade;
     }
 
     private IEnumerator CrossFade(AudioSource fadeFrom, AudioSource fadeTo, float fadeDuration)
     {
-        float stepInterval = fadeDuration / this.numCrossfadeSteps;
-        float volInterval = this.musicVolume / this.numCrossfadeSteps;
-        
-        fadeTo.Play();
+        currentlyCrossfading = true;
 
-        for (int i = 0; i < (int) this.numCrossfadeSteps; i++)
-        {
-            fadeFrom.volume -= volInterval;
-            fadeTo.volume += volInterval;
-            yield return new WaitForSeconds(stepInterval);
-        }
-        
-        fadeFrom.Stop();
-        source0Active = !source0Active;
+            float stepInterval = fadeDuration / this.numCrossfadeSteps;
+            float volInterval = this.musicVolume / this.numCrossfadeSteps;
+
+            fadeTo.Play();
+
+            for (int i = 0; i < (int)this.numCrossfadeSteps; i++)
+            {
+                fadeFrom.volume = Math.Max(fadeFrom.volume -= volInterval, 0);
+                fadeTo.volume = Math.Min(fadeTo.volume += volInterval, this.musicVolume);
+                yield return new WaitForSeconds(stepInterval);
+            }
+
+            fadeFrom.Stop();
+
+            source0Active = !source0Active;
+
+            currentlyCrossfading = false;
     }
 }
