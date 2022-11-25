@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 public class GUIManager : MonoBehaviour
 {
@@ -16,11 +17,16 @@ public class GUIManager : MonoBehaviour
     private Button returnButton;
 
     private LevelManager levelManager;
+    
+    private UIDocument pauseMenu;
+    private MixerManager mixerManager;
+
+    private VisualElement root;
 
     // Start is called before the first frame update
     void Start()
     {
-        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        root = GetComponent<UIDocument>().rootVisualElement;
         
         levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
         
@@ -36,6 +42,32 @@ public class GUIManager : MonoBehaviour
         returnButton.clicked += returnButtonPressed;
 
         HideReport();
+        
+        GameObject pauseMenuObject = GameObject.Find("PauseMenu");
+        pauseMenu = pauseMenuObject.GetComponent<UIDocument>();
+        pauseMenu.rootVisualElement.visible = false;
+
+        // get the MixerManager
+        mixerManager = pauseMenuObject.GetComponent<MixerManager>();
+        
+        // Callbacks for the three sliders
+        Slider masterVolSlider = pauseMenu.rootVisualElement.Q<Slider>("MasterVolSlider");
+        masterVolSlider.RegisterValueChangedCallback(v =>
+        {
+            mixerManager.setVolume("MasterVol", v.newValue);
+        });
+        
+        Slider musicVolSlider = pauseMenu.rootVisualElement.Q<Slider>("MusicVolSlider");
+        musicVolSlider.RegisterValueChangedCallback(v =>
+        {
+            mixerManager.setVolume("MusicVol", v.newValue);
+        });
+        
+        Slider SFXVolSlider = pauseMenu.rootVisualElement.Q<Slider>("SFXVolSlider");
+        SFXVolSlider.RegisterValueChangedCallback(v =>
+        {
+            mixerManager.setVolume("SFXVol", v.newValue);
+        });
     }
 
     // Update is called once per frame
@@ -44,6 +76,25 @@ public class GUIManager : MonoBehaviour
         if (isDisplayed(timerGB))
         {
             time.text = (levelManager.endTime - levelManager.currentTime).ToString("0");
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pauseMenu.rootVisualElement.visible = !pauseMenu.rootVisualElement.visible;
+            root.visible = !root.visible;
+
+            if (pauseMenu.rootVisualElement.visible)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Time.timeScale = 0;
+                mixerManager.transitionHPF(true);
+            }
+            else
+            {
+                mixerManager.transitionHPF(false);
+                Time.timeScale = 1;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
     }
     

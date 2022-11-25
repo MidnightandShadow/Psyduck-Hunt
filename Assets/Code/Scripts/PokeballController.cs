@@ -55,13 +55,13 @@ public class PokeballController : MonoBehaviour
         {
             case 0: // Apply upwards force from collision with pokemon
                 rigidbody.AddForce(Vector3.up * 3, ForceMode.Impulse);
-                animationStage++;
+                animationStage = 1;
                 break;
 
             case 1: // check for when pokeball starts falling back down
                 if (rigidbody.velocity.y < 0)
                 {
-                    animationStage++;
+                    animationStage = 2;
                 }
 
                 break;
@@ -92,7 +92,7 @@ public class PokeballController : MonoBehaviour
                 if (pokeballAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f &&
                     pokeballAnimator.GetCurrentAnimatorStateInfo(0).IsName("AN_Open"))
                 {
-                    animationStage++;
+                    animationStage = 3;
                 }
 
                 break;
@@ -103,7 +103,7 @@ public class PokeballController : MonoBehaviour
                 if (pokeballAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f &&
                     pokeballAnimator.GetCurrentAnimatorStateInfo(0).IsName("AN_Close"))
                 {
-                    animationStage++;
+                    animationStage = 4;
                     terrain = null;
                 }
 
@@ -116,7 +116,7 @@ public class PokeballController : MonoBehaviour
 
                 if (terrain != null)
                 {
-                    animationStage++;
+                    animationStage = 5;
                 }
 
                 break;
@@ -136,7 +136,7 @@ public class PokeballController : MonoBehaviour
                         escaped = true;
                         pokeballAnimator.speed = 0;
                         didOnce = false;
-                        animationStage++;
+                        animationStage = 6;
                     }
 
                     StartCoroutine(WaitForCheck(1));
@@ -149,7 +149,7 @@ public class PokeballController : MonoBehaviour
                 {
                     pokeballAnimator.speed = 0;
                     didOnce = false;
-                    animationStage++;
+                    animationStage = 6;
                 }
 
                 break;

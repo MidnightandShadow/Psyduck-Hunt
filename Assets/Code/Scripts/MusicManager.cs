@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.TextCore.Text;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class MusicManager : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class MusicManager : MonoBehaviour
 
     [SerializeField] private float musicVolume;
     [SerializeField] private float fadeDuration;
+    
+    // Link to audio mixer
+    [SerializeField] [Tooltip("Link to the music mixer group.")] private AudioMixerGroup audioMixerGroup;
 
     private void Awake()
     {
@@ -52,6 +56,10 @@ public class MusicManager : MonoBehaviour
         musicSource1.volume = 0.0f;
         musicSource1.clip = tracks[1];
         musicSource1.loop = true;
+        
+        // link to correct mixer channel:
+        musicSource0.outputAudioMixerGroup = audioMixerGroup;
+        musicSource1.outputAudioMixerGroup = audioMixerGroup;
 
         musicSource0.Play();
         source0Active = true;
@@ -80,7 +88,7 @@ public class MusicManager : MonoBehaviour
             {
                 fadeFrom.volume = Math.Max(fadeFrom.volume -= volInterval, 0);
                 fadeTo.volume = Math.Min(fadeTo.volume += volInterval, this.musicVolume);
-                yield return new WaitForSeconds(stepInterval);
+                yield return new WaitForSecondsRealtime(stepInterval);
             }
 
             fadeFrom.Stop();

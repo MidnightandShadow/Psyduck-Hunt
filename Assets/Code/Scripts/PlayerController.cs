@@ -69,54 +69,57 @@ public class PlayerController : MonoBehaviour
         Transform cameraTransform = mainCamera.transform;
 
         grounded = Physics.Raycast(playerTransform.position, Vector3.down, groundCastDistance);
-        
-        // wasd/left right up down ground movement
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-        
-        Vector3 movement = (playerTransform.right * x) + (playerTransform.forward * z);
-        
-        // throwing
-        if (Input.GetButtonDown("Fire1") && grounded)
+
+        if (Time.timeScale > 0)
         {
-            throwing = true;
-            SpawnPokeballToBone();
-            playerAnimator.SetBool("isThrowing", true);
+            // wasd/left right up down ground movement
+            float x = Input.GetAxis("Horizontal");
+            float z = Input.GetAxis("Vertical");
+
+            Vector3 movement = (playerTransform.right * x) + (playerTransform.forward * z);
+
+            // throwing
+            if (Input.GetButtonDown("Fire1") && grounded)
+            {
+                throwing = true;
+                SpawnPokeballToBone();
+                playerAnimator.SetBool("isThrowing", true);
+            }
+
+            if (!throwing)
+            {
+                // detect if running
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    playerAS1.volume = 0.35f;
+                    controller.Move(movement * (runSpeed * Time.deltaTime));
+                }
+                else
+                {
+                    playerAS1.volume = 0.25f;
+                    controller.Move(movement * (speed * Time.deltaTime));
+                }
+
+                // gravity and jumping
+                velocity.y += gravity * Time.deltaTime;
+
+                if (Input.GetButtonDown("Jump") && this.grounded)
+                {
+                    velocity.y = Mathf.Sqrt(jumpHeight);
+                }
+
+                controller.Move(velocity * Time.deltaTime);
+                playerAnimator.SetBool("isJumping", !grounded);
+            }
+
+            // detect if at least walking
+            playerAnimator.SetBool("isWalking", movement.magnitude > 0);
+
+            playerAnimator.SetBool("isRunning", Input.GetKey(KeyCode.LeftShift));
+
+            // Rotate player alongside camera
+            playerTransform.rotation = Quaternion.AngleAxis(cameraTransform.rotation.eulerAngles.y, Vector3.up);
         }
-
-        if (!throwing)
-        {
-            // detect if running
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                playerAS1.volume = 0.35f;
-                controller.Move(movement * (runSpeed * Time.deltaTime));
-            }
-            else
-            {
-                playerAS1.volume = 0.25f;
-                controller.Move(movement * (speed * Time.deltaTime));
-            }
-            
-            // gravity and jumping
-            velocity.y += gravity * Time.deltaTime;
-
-            if (Input.GetButtonDown("Jump") && this.grounded)
-            {
-                velocity.y = Mathf.Sqrt(jumpHeight);
-            }
-        
-            controller.Move(velocity * Time.deltaTime);
-            playerAnimator.SetBool("isJumping", !grounded);
-        }
-        
-        // detect if at least walking
-        playerAnimator.SetBool("isWalking", movement.magnitude > 0);
-        
-        playerAnimator.SetBool("isRunning", Input.GetKey(KeyCode.LeftShift));
-
-        // Rotate player alongside camera
-        playerTransform.rotation = Quaternion.AngleAxis(cameraTransform.rotation.eulerAngles.y, Vector3.up);
     }
 
     public void ThrowEnded()
