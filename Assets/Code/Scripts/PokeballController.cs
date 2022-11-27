@@ -170,6 +170,7 @@ public class PokeballController : MonoBehaviour
 
                     Destroy(gameObject);
                     pokemon.SetActive(true);
+                    pokemon.GetComponent<PokemonController>().SwitchToFleeSurprise();
                 }
                 else
                 {

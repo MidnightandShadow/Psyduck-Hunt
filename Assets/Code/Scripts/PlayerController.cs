@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
             Vector3 movement = (playerTransform.right * x) + (playerTransform.forward * z);
 
             // throwing
-            if (Input.GetButtonDown("Fire1") && grounded)
+            if (Input.GetButtonDown("Fire1") && grounded && !throwing)
             {
                 throwing = true;
                 SpawnPokeballToBone();
@@ -115,7 +115,10 @@ public class PlayerController : MonoBehaviour
             // detect if at least walking
             playerAnimator.SetBool("isWalking", movement.magnitude > 0);
 
-            playerAnimator.SetBool("isRunning", Input.GetKey(KeyCode.LeftShift));
+            if (!throwing)
+            {
+                playerAnimator.SetBool("isRunning", Input.GetKey(KeyCode.LeftShift) && movement.magnitude > 0);
+            }
 
             // Rotate player alongside camera
             playerTransform.rotation = Quaternion.AngleAxis(cameraTransform.rotation.eulerAngles.y, Vector3.up);
@@ -222,6 +225,47 @@ public class PlayerController : MonoBehaviour
         {
             playerAS1.clip = sandSounds[Random.Range(0, sandSounds.Length)];
         }
+        
+        // randomize pitch within a reasonable amount
+        int randomPitch = Random.Range(0, 10);
+        
+        switch (randomPitch)
+        {
+            case 0:
+                playerAS1.pitch = 0.85f;
+                break;
+            case 1:
+                playerAS1.pitch = 0.88f;
+                break;
+            case 2:
+                playerAS1.pitch = 0.9f;
+                break;
+            case 3:
+                playerAS1.pitch = 0.93f;
+                break;
+            case 4:
+                playerAS1.pitch = 0.95f;
+                break;
+            case 5:
+                playerAS1.pitch = 1.03f;
+                break;
+            case 6:
+                playerAS1.pitch = 1.05f;
+                break;
+            case 7:
+                playerAS1.pitch = 1.08f;
+                break;
+            case 8:
+                playerAS1.pitch = 1.12f;
+                break;
+            case 9:
+                playerAS1.pitch = 1.15f;
+                break;
+            default:
+                playerAS1.pitch = 1;
+                break;
+        }
+        
         playerAS1.Play();
     }
 }

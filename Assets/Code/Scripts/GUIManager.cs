@@ -155,6 +155,7 @@ public class GUIManager : MonoBehaviour
         {
             musicManager.source0Active = !musicManager.source0Active;
             StopCoroutine(musicManager.previousCrossfade);
+            Destroy(this);
         }
         
         StartCoroutine(musicManager.SwitchTracks());

@@ -11,7 +11,7 @@
             </ui:GroupBox>
         </ui:GroupBox>
         <ui:GroupBox name="bottomGB" style="height: 50%; align-items: center; justify-content: flex-end;">
-            <ui:Button text="Return" display-tooltip-when-elided="true" name="return" style="bottom: 20%; -unity-font: url(&apos;project://database/Assets/UI%20Toolkit/Fonts/Lemon%20Days.otf?fileID=12800000&amp;guid=f650d406f39f4734ba2312b69f589898&amp;type=3#Lemon Days&apos;); -unity-font-definition: url(&apos;project://database/Assets/UI%20Toolkit/Fonts/Lemon%20Days%20SDF.asset?fileID=11400000&amp;guid=5c787d0e04d189841b5e306db1c91eab&amp;type=2#Lemon Days SDF&apos;); color: rgb(255, 204, 0); background-color: rgb(0, 34, 119); border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; font-size: 32px;" />
+            <ui:Button text="Return" display-tooltip-when-elided="true" name="return" focusable="false" style="bottom: 20%; -unity-font: url(&apos;project://database/Assets/UI%20Toolkit/Fonts/Lemon%20Days.otf?fileID=12800000&amp;guid=f650d406f39f4734ba2312b69f589898&amp;type=3#Lemon Days&apos;); -unity-font-definition: url(&apos;project://database/Assets/UI%20Toolkit/Fonts/Lemon%20Days%20SDF.asset?fileID=11400000&amp;guid=5c787d0e04d189841b5e306db1c91eab&amp;type=2#Lemon Days SDF&apos;); color: rgb(255, 204, 0); background-color: rgb(0, 34, 119); border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; font-size: 32px;" />
         </ui:GroupBox>
     </ui:GroupBox>
 </ui:UXML>

@@ -56,6 +56,7 @@ public class PokemonController : MonoBehaviour
         pokemonAnimator = GetComponent<Animator>();
         
         SwitchToState(State.Chill);
+        UpdatePokemonAnimator(false,false,false);
 
         pokemonAS1 = GetComponents<AudioSource>()[0];
         pokemonAS2 = GetComponents<AudioSource>()[1];
@@ -121,6 +122,7 @@ public class PokemonController : MonoBehaviour
                 if ((transform.position - currentDestination).magnitude < 2.5f)
                 {
                     SwitchToState(State.Chill);
+                    UpdatePokemonAnimator(false,false,false);
                 }
                 
                 if ( InView(trevor, viewAngle, viewDistance) )
@@ -186,13 +188,19 @@ public class PokemonController : MonoBehaviour
         SwitchToState(State.Flee);
     }
 
+    public void SwitchToFleeSurprise()
+    {
+        UpdatePokemonAnimator(false,true,false);
+        Invoke("SwitchToFlee", 1.2f);
+    }
+
     private void OnDisable()
     {
         CancelInvoke("SwitchToSaunter");
         CancelInvoke("SwitchToFlee");
         CancelInvoke("CheckForDig");
         
-        SwitchToState(State.Flee);
+        // SwitchToState(State.Flee);
     }
 
     private void CheckForDig()
@@ -200,6 +208,7 @@ public class PokemonController : MonoBehaviour
         if ((transform.position - trevor.transform.position).magnitude > 28f)
         {
             SwitchToState(State.Chill);
+            UpdatePokemonAnimator(false,false,false);
         } else
         {
             SwitchToState(State.Dig);
@@ -211,7 +220,7 @@ public class PokemonController : MonoBehaviour
         levelManager.removePokemon(gameObject, false);
     }
 
-    private void UpdatePokemonAnimator(bool saunter, bool flee, bool dig)
+    public void UpdatePokemonAnimator(bool saunter, bool flee, bool dig)
     {
         pokemonAnimator.SetBool("Saunter", saunter);
         pokemonAnimator.SetBool("Flee", flee);
@@ -352,6 +361,48 @@ public class PokemonController : MonoBehaviour
         {
             pokemonAS2.clip = sandSounds[Random.Range(0, sandSounds.Length)];
         }
+        
+        // randomize pitch within a reasonable amount
+        int randomPitch = Random.Range(0, 10);
+        
+        switch (randomPitch)
+        {
+            case 0:
+                pokemonAS2.pitch = 0.85f;
+                break;
+            case 1:
+                pokemonAS2.pitch = 0.88f;
+                break;
+            case 2:
+                pokemonAS2.pitch = 0.9f;
+                break;
+            case 3:
+                pokemonAS2.pitch = 0.93f;
+                break;
+            case 4:
+                pokemonAS2.pitch = 0.95f;
+                break;
+            case 5:
+                pokemonAS2.pitch = 1.03f;
+                break;
+            case 6:
+                pokemonAS2.pitch = 1.05f;
+                break;
+            case 7:
+                pokemonAS2.pitch = 1.08f;
+                break;
+            case 8:
+                pokemonAS2.pitch = 1.12f;
+                break;
+            case 9:
+                pokemonAS2.pitch = 1.15f;
+                break;
+            default:
+                pokemonAS2.pitch = 1;
+                break;
+        }
+
+
         pokemonAS2.Play();
     }
 }
