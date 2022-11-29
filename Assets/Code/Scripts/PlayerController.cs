@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -38,11 +35,11 @@ public class PlayerController : MonoBehaviour
     private float throwStrength = 4f;
 
     private Vector3 velocity;
-    private float gravity = -9.82f;
-    private float jumpHeight = 15f;
-    private float groundCastDistance = 0.10f;
+    private readonly float gravity = -9.82f;
+    private readonly float jumpHeight = 15f;
+    private readonly float groundCastDistance = 0.10f;
     private bool grounded;
-    private bool throwing = false;
+    private bool throwing;
     private GameObject instantiatedPokeball;
     
     [SerializeField] private AudioClip[] grassSounds;
@@ -51,6 +48,10 @@ public class PlayerController : MonoBehaviour
     private AudioSource playerAS1;
 
     private Terrain terrain;
+    private static readonly int IsThrowing = Animator.StringToHash("isThrowing");
+    private static readonly int IsJumping = Animator.StringToHash("isJumping");
+    private static readonly int IsWalking = Animator.StringToHash("isWalking");
+    private static readonly int IsRunning = Animator.StringToHash("isRunning");
 
     // Start is called before the first frame update
     void Start()
@@ -83,7 +84,7 @@ public class PlayerController : MonoBehaviour
             {
                 throwing = true;
                 SpawnPokeballToBone();
-                playerAnimator.SetBool("isThrowing", true);
+                playerAnimator.SetBool(IsThrowing, true);
             }
 
             if (!throwing)
@@ -109,15 +110,15 @@ public class PlayerController : MonoBehaviour
                 }
 
                 controller.Move(velocity * Time.deltaTime);
-                playerAnimator.SetBool("isJumping", !grounded);
+                playerAnimator.SetBool(IsJumping, !grounded);
             }
 
             // detect if at least walking
-            playerAnimator.SetBool("isWalking", movement.magnitude > 0);
+            playerAnimator.SetBool(IsWalking, movement.magnitude > 0);
 
             if (!throwing)
             {
-                playerAnimator.SetBool("isRunning", Input.GetKey(KeyCode.LeftShift) && movement.magnitude > 0);
+                playerAnimator.SetBool(IsRunning, Input.GetKey(KeyCode.LeftShift) && movement.magnitude > 0);
             }
 
             // Rotate player alongside camera
@@ -128,7 +129,7 @@ public class PlayerController : MonoBehaviour
     public void ThrowEnded()
     {
         throwing = false;
-        playerAnimator.SetBool("isThrowing", false);
+        playerAnimator.SetBool(IsThrowing, false);
     }
 
     private void SpawnPokeballToBone()
@@ -159,18 +160,10 @@ public class PlayerController : MonoBehaviour
     
     private void OnApplicationFocus(bool hasFocus)
     {
-        if (hasFocus)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
-        
+        Cursor.lockState = hasFocus ? CursorLockMode.Locked : CursorLockMode.None;
     }
-    
-    public float[] GetTextureMix(Vector3 playerPosition)
+
+    private float[] GetTextureMix(Vector3 playerPosition)
     {
         Vector3 terrainPosition = terrain.transform.position;
         TerrainData terrainData = terrain.terrainData;
@@ -199,7 +192,7 @@ public class PlayerController : MonoBehaviour
         return cellMix;
     }
 
-    public string FootStepLayerName(Vector3 playerPosition)
+    private string FootStepLayerName(Vector3 playerPosition)
     {
         float[] cellMix = GetTextureMix(playerPosition);
         float strongestTexture = 0f;

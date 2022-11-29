@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -102,7 +100,7 @@ public class GUIManager : MonoBehaviour
     {
         if (isDisplayed(reportGB))
         {
-            CancelInvoke("HideReport");
+            CancelInvoke(nameof(HideReport));
         }
         
         setDisplay(timerGB, false);
@@ -116,14 +114,14 @@ public class GUIManager : MonoBehaviour
         line2Label.visible = false;
         returnButton.visible = false;
         
-        Invoke("HideReport", timeVisible);
+        Invoke(nameof(HideReport), timeVisible);
     }
     
     public void reportToPlayer(string title, string line1, string line2)
     {
         if (isDisplayed(reportGB))
         {
-            CancelInvoke("HideReport");
+            CancelInvoke(nameof(HideReport));
         }
         
         setDisplay(timerGB, false);

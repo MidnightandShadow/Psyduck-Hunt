@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
+[SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class LevelManager : MonoBehaviour
 {
     private int amountOfPokemon;
-    private int amountOfStartingPokemon;
     private int amountOfPokemonCaught;
 
     public float currentTime;
@@ -18,7 +17,6 @@ public class LevelManager : MonoBehaviour
     {
         Time.timeScale = 1;
         amountOfPokemon = GameObject.FindGameObjectsWithTag("Pokemon").Length;
-        amountOfStartingPokemon = amountOfPokemon;
         endTime = 180f;
 
         GUI = GameObject.Find("GUI").GetComponent<GUIManager>();
@@ -55,7 +53,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void endGame(string reason)
+    private void endGame(string reason)
     {
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;

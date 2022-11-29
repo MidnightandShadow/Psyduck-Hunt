@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -32,16 +31,9 @@ public class MixerManager : MonoBehaviour
 
         for (int i = 0; i < 100; i++)
         {
-            float currValue;
-            audioMixer.GetFloat("MasterHPF", out currValue);
-            if (toPauseMenu)
-            {
-                audioMixer.SetFloat("MasterHPF", Mathf.Min(currValue += 20f, 2020f));
-            }
-            else
-            {
-                audioMixer.SetFloat("MasterHPF", Mathf.Max(currValue -= 20f, 10f));
-            }
+            audioMixer.GetFloat("MasterHPF", out var currValue);
+            audioMixer.SetFloat("MasterHPF",
+                toPauseMenu ? Mathf.Min(currValue += 20f, 2020f) : Mathf.Max(currValue -= 20f, 10f));
 
             yield return new WaitForSecondsRealtime(0.0025f);
         }

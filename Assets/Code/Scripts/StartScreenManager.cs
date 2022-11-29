@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 public class StartScreenManager : MonoBehaviour
 {
@@ -48,7 +46,7 @@ public class StartScreenManager : MonoBehaviour
             mixerManager.setVolume("SFXVol", v.newValue);
         });
 
-        InvokeRepeating("blinkCallToAction", 0.25f, 0.25f);
+        InvokeRepeating(nameof(blinkCallToAction), 0.25f, 0.25f);
     }
 
     // Update is called once per frame
@@ -57,6 +55,7 @@ public class StartScreenManager : MonoBehaviour
         if (Input.anyKey && !Input.GetKey(KeyCode.Escape) && pauseMenu.rootVisualElement.visible == false)
         {
             SceneManager.LoadScene("SampleScene");
+            Cursor.lockState = CursorLockMode.Locked;
             
             MusicManager musicManager = MusicManager.instance;
 
@@ -76,13 +75,13 @@ public class StartScreenManager : MonoBehaviour
 
             if (pauseMenu.rootVisualElement.visible)
             {
-                CancelInvoke("blinkCallToAction");
+                CancelInvoke(nameof(blinkCallToAction));
                 callToAction.visible = false;
                 mixerManager.transitionHPF(true);
             }
             else
             {
-                InvokeRepeating("blinkCallToAction", 0.25f, 0.25f);
+                InvokeRepeating(nameof(blinkCallToAction), 0.25f, 0.25f);
                 mixerManager.transitionHPF(false);
             }
         }

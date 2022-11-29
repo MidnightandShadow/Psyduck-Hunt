@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -43,6 +39,9 @@ public class PokemonController : MonoBehaviour
     private bool silence;
     
     private Terrain terrain;
+    private static readonly int Saunter = Animator.StringToHash("Saunter");
+    private static readonly int Flee = Animator.StringToHash("Flee");
+    private static readonly int Dig = Animator.StringToHash("Dig");
 
     // Start is called before the first frame update
     void Start()
@@ -72,7 +71,7 @@ public class PokemonController : MonoBehaviour
         terrain = GameObject.Find("Terrain").GetComponent<Terrain>();
 
         silence = true;
-        Invoke("resetSilence", Random.Range(3f, 8f));
+        Invoke(nameof(resetSilence), Random.Range(3f, 8f));
 
         FootStepLayerName(transform.position);
     }
@@ -89,7 +88,7 @@ public class PokemonController : MonoBehaviour
                     currentDestination = transform.position;
                     GetComponent<NavMeshAgent>().destination = currentDestination;
                     
-                    Invoke("SwitchToSaunter", Random.Range(5.0f, 6.0f));
+                    Invoke(nameof(SwitchToSaunter), Random.Range(5.0f, 6.0f));
                     UpdatePokemonAnimator(false, false, false);
                     
                     GetComponent<NavMeshAgent>().speed = 0.0f;
@@ -101,7 +100,7 @@ public class PokemonController : MonoBehaviour
                 {
                     // to leave time for surprise animation
                     UpdatePokemonAnimator(false, true, false);
-                    Invoke("SwitchToFlee", 1.6f);
+                    Invoke(nameof(SwitchToFlee), 1.6f);
                 }
                 break;
             
@@ -129,17 +128,17 @@ public class PokemonController : MonoBehaviour
                 {
                     // to leave time for surprise animation
                     UpdatePokemonAnimator(false, true, false);
-                    Invoke("SwitchToFlee", 1.6f);
+                    Invoke(nameof(SwitchToFlee), 1.6f);
                 }
                 break;
             
             case State.Flee:
                 if (transitionActive)
                 {
-                    CancelInvoke("SwitchToSaunter");
-                    CancelInvoke("SwitchToFlee");
+                    CancelInvoke(nameof(SwitchToSaunter));
+                    CancelInvoke(nameof(SwitchToFlee));
                     
-                    Invoke("CheckForDig", 10f);
+                    Invoke(nameof(CheckForDig), 10f);
 
                     currentDestination = ValidDestination(true);
                     GetComponent<NavMeshAgent>().destination = currentDestination;
@@ -151,7 +150,7 @@ public class PokemonController : MonoBehaviour
 
                 if ( (transform.position - currentDestination).magnitude < 2.5f)
                 {
-                    CancelInvoke("CheckForDig");
+                    CancelInvoke(nameof(CheckForDig));
                     CheckForDig();
                 }
                 
@@ -191,14 +190,14 @@ public class PokemonController : MonoBehaviour
     public void SwitchToFleeSurprise()
     {
         UpdatePokemonAnimator(false,true,false);
-        Invoke("SwitchToFlee", 1.2f);
+        Invoke(nameof(SwitchToFlee), 1.2f);
     }
 
     private void OnDisable()
     {
-        CancelInvoke("SwitchToSaunter");
-        CancelInvoke("SwitchToFlee");
-        CancelInvoke("CheckForDig");
+        CancelInvoke(nameof(SwitchToSaunter));
+        CancelInvoke(nameof(SwitchToFlee));
+        CancelInvoke(nameof(CheckForDig));
         
         // SwitchToState(State.Flee);
     }
@@ -220,16 +219,16 @@ public class PokemonController : MonoBehaviour
         levelManager.removePokemon(gameObject, false);
     }
 
-    public void UpdatePokemonAnimator(bool saunter, bool flee, bool dig)
+    private void UpdatePokemonAnimator(bool saunter, bool flee, bool dig)
     {
-        pokemonAnimator.SetBool("Saunter", saunter);
-        pokemonAnimator.SetBool("Flee", flee);
-        pokemonAnimator.SetBool("Dig", dig);
+        pokemonAnimator.SetBool(Saunter, saunter);
+        pokemonAnimator.SetBool(Flee, flee);
+        pokemonAnimator.SetBool(Dig, dig);
     }
     
-    void playSound(State currentState)
+    void playSound(State currentStateParam)
     {
-        if (currentState.Equals(State.Chill) || currentState.Equals(State.Saunter))
+        if (currentStateParam.Equals(State.Chill) || currentStateParam.Equals(State.Saunter))
         {
             // for fleeing
             pokemonAS1.loop = false;
@@ -238,11 +237,11 @@ public class PokemonController : MonoBehaviour
                 pokemonAS1.clip = psySounds[Random.Range(0,psySounds.Length)];
                 pokemonAS1.Play();
                 silence = true;
-                Invoke("resetSilence", Random.Range(3f,8f));
+                Invoke(nameof(resetSilence), Random.Range(3f,8f));
             }
         }
 
-        if (currentState.Equals(State.Flee) && transitionActive)
+        if (currentStateParam.Equals(State.Flee) && transitionActive)
         {
             pokemonAS1.clip = panicSounds[Random.Range(0, panicSounds.Length)];
             pokemonAS1.loop = true;
@@ -264,23 +263,10 @@ public class PokemonController : MonoBehaviour
 
         if (avoidTrevor)
         {
-            if (trevor.transform.position.x - boundaries[0, 0] >= boundaries[0, 1] - trevor.transform.position.x)
-            {
-                x = boundaries[0, 0];
-            }
-            else
-            {
-                x = boundaries[0, 1];
-            }
-            
-            if (trevor.transform.position.z - boundaries[1, 0] >= boundaries[1, 1] - trevor.transform.position.z)
-            {
-                z = boundaries[1, 0];
-            }
-            else
-            {
-                z = boundaries[1, 1];
-            }
+            var position = trevor.transform.position;
+            x = position.x - boundaries[0, 0] >= boundaries[0, 1] - position.x ? boundaries[0, 0] : boundaries[0, 1];
+
+            z = trevor.transform.position.z - boundaries[1, 0] >= boundaries[1, 1] - position.z ? boundaries[1, 0] : boundaries[1, 1];
         }
         
         Vector3 destination = new Vector3(x, Terrain.activeTerrain
@@ -291,12 +277,15 @@ public class PokemonController : MonoBehaviour
 
     private bool InView(GameObject target, float viewingAngle, float viewingDistance)
     {
-        float dotProduct = Vector3.Dot(transform.forward,
-            Vector3.Normalize(target.transform.position - transform.position));
+        var transform1 = transform;
+        var position = target.transform.position;
+        
+        float dotProduct = Vector3.Dot(transform1.forward,
+            Vector3.Normalize(position - transform1.position));
 
         float view = 1.0f - viewingAngle;
 
-        float distance = (transform.position - target.transform.position).magnitude;
+        float distance = (transform.position - position).magnitude;
 
         if (dotProduct >= view && distance <= viewingDistance)
         {
@@ -306,7 +295,7 @@ public class PokemonController : MonoBehaviour
         return false;
     }
 
-    public float[] GetTextureMix(Vector3 pokemonPosition)
+    private float[] GetTextureMix(Vector3 pokemonPosition)
     {
         Vector3 terrainPosition = terrain.transform.position;
         TerrainData terrainData = terrain.terrainData;
@@ -335,7 +324,7 @@ public class PokemonController : MonoBehaviour
         return cellMix;
     }
 
-    public string FootStepLayerName(Vector3 pokemonPosition)
+    private string FootStepLayerName(Vector3 pokemonPosition)
     {
         float[] cellMix = GetTextureMix(pokemonPosition);
         float strongestTexture = 0f;
