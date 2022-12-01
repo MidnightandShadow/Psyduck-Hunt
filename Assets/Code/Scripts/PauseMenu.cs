@@ -42,4 +42,9 @@ public class PauseMenu : MonoBehaviour
     {
         scriptableRendererFeature.SetActive(shouldToggle);
     }
+
+    private void OnApplicationQuit()
+    {
+        scriptableRendererFeature.SetActive(false);
+    }
 }

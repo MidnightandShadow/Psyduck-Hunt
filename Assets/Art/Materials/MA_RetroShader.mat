@@ -36,15 +36,15 @@ Material:
     m_Ints: []
     m_Floats:
     - _NoiseAmount: 0.044
-    - _NoiseScale: 100
+    - _NoiseScale: 8000
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ScanningLines: 7
-    - _ScanningLinesAmount: 0.009
+    - _ScanningLinesAmount: 0.007
     - _ScanningLinesBlinkingSpeed: 10
-    - _ScanningLinesSpeed: 1
+    - _ScanningLinesSpeed: 1.2
     m_Colors:
-    - _Color: {r: 0, g: 1, b: 0.09411764, a: 0}
+    - _Color: {r: 0.514151, g: 1, b: 0.55987793, a: 0}
     - _NoiseSpeed: {r: 0, g: 0.09, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7121210798210004409
