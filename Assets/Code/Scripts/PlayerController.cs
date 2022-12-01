@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerAS1 = GetComponent<AudioSource>();
-        playerAS1.volume = 0.25f;
+        playerAS1.volume = 0.35f;
         playerAS1.spatialBlend = 1f;
         terrain = GameObject.Find("Terrain").GetComponent<Terrain>();
     }
@@ -92,12 +92,12 @@ public class PlayerController : MonoBehaviour
                 // detect if running
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
-                    playerAS1.volume = 0.35f;
+                    playerAS1.volume = 0.45f;
                     controller.Move(movement * (runSpeed * Time.deltaTime));
                 }
                 else
                 {
-                    playerAS1.volume = 0.25f;
+                    playerAS1.volume = 0.35f;
                     controller.Move(movement * (speed * Time.deltaTime));
                 }
 

@@ -308,7 +308,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 961915f430768f940b2dcbc33c1280cd, type: 3}
   - {fileID: 8300000, guid: 0d9eb31afb14dd84daba35331d9b8695, type: 3}
   numCrossfadeSteps: 20
-  musicVolume: 0.35
+  musicVolume: 0.25
   fadeDuration: 5
   audioMixerGroup: {fileID: -1953197771683206595, guid: 10a59b8cfd8af364e8aa7d9797bf059d,
     type: 2}

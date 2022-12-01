@@ -64,7 +64,7 @@ public class PokemonController : MonoBehaviour
         pokemonAS1.spatialBlend = 1f;
         pokemonAS1.maxDistance = 5f;
         
-        pokemonAS2.volume = 0.25f;
+        pokemonAS2.volume = 0.35f;
         pokemonAS2.spatialBlend = 1f;
         pokemonAS2.maxDistance = 5f;
 
@@ -133,6 +133,7 @@ public class PokemonController : MonoBehaviour
                 break;
             
             case State.Flee:
+                playSound(State.Flee);
                 if (transitionActive)
                 {
                     CancelInvoke(nameof(SwitchToSaunter));
@@ -230,8 +231,8 @@ public class PokemonController : MonoBehaviour
     {
         if (currentStateParam.Equals(State.Chill) || currentStateParam.Equals(State.Saunter))
         {
-            // for fleeing
-            pokemonAS1.loop = false;
+            // for fleeing (but I didn't really like the looping, so it's just one time)
+            // pokemonAS1.loop = false;
             if (!silence && Random.Range(0,10) == 1)
             {
                 pokemonAS1.clip = psySounds[Random.Range(0,psySounds.Length)];
@@ -244,7 +245,7 @@ public class PokemonController : MonoBehaviour
         if (currentStateParam.Equals(State.Flee) && transitionActive)
         {
             pokemonAS1.clip = panicSounds[Random.Range(0, panicSounds.Length)];
-            pokemonAS1.loop = true;
+            // pokemonAS1.loop = true;
             pokemonAS1.Play();
         }
     }
